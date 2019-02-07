@@ -10,12 +10,18 @@ import com.example.demo.domain.Foo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @RestController
-@Api(value="Hello World")
+@Api(value="Hello World",
+	authorizations = {
+		  @Authorization(value="sampleoauth", scopes = {})
+	})
 public class HelloController {
 
-	@ApiOperation(value = "Greets the world or BH")
+	@ApiOperation(value = "Greets the world or BH",  notes = "Sample notes",
+		    response = Foo.class,
+		    responseContainer = "")
 	@GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Foo hello(@RequestParam(required = false) boolean belzonte) {
 		Foo greeting = new Foo("Hello world");
