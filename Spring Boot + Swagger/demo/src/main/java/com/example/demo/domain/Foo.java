@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "Foo Entity", description = "This is a sample entity from the domain package.")
 public class Foo {
 
-	@ApiModelProperty(value = "message")
+	@ApiModelProperty(value = "message", example="Property example")
 	private String message;
 
 	public Foo() {
