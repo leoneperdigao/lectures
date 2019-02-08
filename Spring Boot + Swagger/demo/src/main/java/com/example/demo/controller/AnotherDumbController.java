@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import io.swagger.annotations.Authorization;
 	authorizations = {
 		  @Authorization(value="sampleoauth", scopes = {})
 	})
+@RequestMapping("api/v2")
 public class AnotherDumbController {
 
 	@ApiOperation(value = "Create foo object",  notes = "Sample notes",
@@ -42,6 +44,7 @@ public class AnotherDumbController {
 	public void remove() {
 	}
 	
+	@Deprecated
 	@ApiOperation(value = "Do some shit")
 	@PatchMapping(value = "/dumb", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public void shitHappens() {

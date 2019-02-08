@@ -1,10 +1,8 @@
 package com.example.demo;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -34,20 +32,35 @@ public class SwaggerConfig {
 
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
+	public static final String V1 = "/api/v1/.*";
+	public static final String V2 = "/api/v2/.*";
 
 	@Bean
-	public Docket apiDocket() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
+	public Docket apiDocketV1() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("1.0")
+				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.example.demo"))
-				.paths(PathSelectors.any())
+				.paths(PathSelectors.regex(V1))
 				.build()
 				.apiInfo(getApiInfo())
 				.forCodeGeneration(true)
 				.genericModelSubstitutes(ResponseEntity.class)
-				.ignoredParameterTypes(Pageable.class).ignoredParameterTypes(java.sql.Date.class)
-				.directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
-				.directModelSubstitute(java.time.ZonedDateTime.class, Date.class)
-				.directModelSubstitute(java.time.LocalDateTime.class, Date.class)
+				.securityContexts(Lists.newArrayList(securityContext())).securitySchemes(Lists.newArrayList(apiKey()))
+				.useDefaultResponseMessages(false);
+	}
+	
+	@Bean
+	public Docket apiDocketV2() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("2.0")
+				.select()
+				.apis(RequestHandlerSelectors.basePackage("com.example.demo"))
+				.paths(PathSelectors.regex(V2))
+				.build()
+				.apiInfo(getApiInfo())
+				.forCodeGeneration(true)
+				.genericModelSubstitutes(ResponseEntity.class)
 				.securityContexts(Lists.newArrayList(securityContext())).securitySchemes(Lists.newArrayList(apiKey()))
 				.useDefaultResponseMessages(false);
 	}
